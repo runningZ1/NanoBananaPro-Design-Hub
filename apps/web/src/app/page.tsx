@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FEATURES, type Feature } from "@/data/features";
+import { CATEGORIES, type Feature, type SubCategory, type Category } from "@/data/features";
 
 export default function Home() {
   return (
     <div className="bg-slate-50">
-      <main className="mx-auto min-h-screen max-w-6xl px-4 py-16 sm:px-8 lg:px-10">
+      <main className="mx-auto min-h-screen max-w-7xl px-4 py-16 sm:px-8 lg:px-10">
         <section className="rounded-3xl bg-gradient-to-br from-sky-600 via-sky-500 to-blue-600 px-8 py-12 text-white shadow-xl">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
             <div className="flex-1 space-y-6">
@@ -14,28 +14,20 @@ export default function Home() {
               </p>
               <div>
                 <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
-                  20+ AI 图片编辑能力，一站式上线 Web
+                  NanoBananaPro 全能 AI 图片处理
                 </h1>
                 <p className="mt-4 text-white/80">
-                  继承原小程序的设计系统与交互逻辑，基于 Next.js + React
-                  构建现代 Web 体验，快速接入真实 AI 服务。
+                  专业向 · 实用向 · 有趣向 —— 满足全方位图片处理需求
                 </p>
               </div>
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="https://www.miaoda.cn/projects/app-7vrr7h77m70h"
+                <Link
+                  href="/nano-banana"
                   className="rounded-full border border-white/50 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                  target="_blank"
-                  rel="noreferrer"
                 >
-                  查看原小程序
-                </a>
+                  开始 AI 图片编辑
+                </Link>
               </div>
-              <dl className="grid gap-4 sm:grid-cols-3">
-                <StatItem label="核心功能" value="20+" />
-                <StatItem label="已接入AI" value="Nano BananaPro" />
-                <StatItem label="技术栈" value="Next.js · React · Tailwind" />
-              </dl>
             </div>
             <div className="flex w-full flex-1 items-center justify-center lg:w-auto">
               <div className="relative h-64 w-full max-w-sm overflow-hidden rounded-2xl bg-white/10 p-4 backdrop-blur">
@@ -56,32 +48,36 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="features" className="mt-12 space-y-6">
-          <header className="flex flex-col gap-3">
-            <p className="text-sm font-semibold tracking-wider text-sky-600">
-              功能矩阵
-            </p>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold text-slate-900">
-                  20 个 AI 图片处理入口
+        <div className="mt-16 space-y-20">
+          {CATEGORIES.map((category) => (
+            <section key={category.name} id={category.name} className="space-y-8">
+              <header className="space-y-2 border-b border-slate-200 pb-4">
+                <h2 className="text-3xl font-bold text-slate-900">
+                  {category.name}
                 </h2>
-                <p className="text-slate-500">
-                  UI 与交互源自原小程序，后续可逐步接入各类图像生成/编辑 API。
+                <p className="max-w-3xl text-lg text-slate-500">
+                  {category.description}
                 </p>
-              </div>
-              <p className="text-sm text-slate-400">
-                数据源：`src/data/features.ts`
-              </p>
-            </div>
-          </header>
+              </header>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <FeatureCard key={feature.id} feature={feature} />
-            ))}
-          </div>
-        </section>
+              <div className="space-y-12">
+                {category.subCategories.map((subCategory) => (
+                  <div key={subCategory.name} className="space-y-4">
+                    <h3 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+                      <span className="h-6 w-1 rounded-full bg-sky-500"></span>
+                      {subCategory.name}
+                    </h3>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                      {subCategory.features.map((feature) => (
+                        <FeatureCard key={feature.id} feature={feature} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       </main>
     </div>
   );
@@ -108,9 +104,8 @@ function PromptSkeleton({
   return (
     <div className="flex items-center gap-3">
       <span
-        className={`h-2 w-2 rounded-full ${
-          active ? "bg-sky-500 animate-pulse" : "bg-slate-300"
-        }`}
+        className={`h-2 w-2 rounded-full ${active ? "bg-sky-500 animate-pulse" : "bg-slate-300"
+          }`}
       />
       <p className="text-sm text-slate-600">{label}</p>
     </div>
@@ -119,63 +114,52 @@ function PromptSkeleton({
 
 function FeatureCard({ feature }: { feature: Feature }) {
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative">
-        {feature.exampleImage ? (
-          <div className="relative h-48 w-full overflow-hidden">
-            <Image
-              src={feature.exampleImage}
-              alt={feature.name}
-              fill
-              className="object-cover transition duration-500 ease-out hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-2">
+            {feature.icon ? (
+              <span className={`text-2xl ${feature.icon}`} />
+            ) : (
+              <div className="h-8 w-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                  <path fillRule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            )}
+            <h4 className="font-semibold text-slate-900 line-clamp-1" title={feature.name}>
+              {feature.name}
+            </h4>
           </div>
-        ) : (
-          <div className="flex h-48 items-center justify-center bg-slate-100 text-slate-400">
-            暂无示例
-          </div>
-        )}
-        {feature.isNew ? (
-          <span className="absolute left-4 top-4 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-            New
-          </span>
-        ) : null}
-      </div>
-      <div className="flex flex-1 flex-col gap-4 p-5">
-        <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-            {feature.icon.replace("i-mdi-", "").replaceAll("-", " ")}
-          </p>
-          <h3 className="text-lg font-semibold text-slate-900">
-            {feature.name}
-          </h3>
-          <p className="text-sm text-slate-500">{feature.description}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {feature.prompts.slice(0, 2).map((prompt) => (
-            <span
-              key={prompt}
-              className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600"
-            >
-              {prompt}
+          {feature.isNew && (
+            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-600">
+              New
             </span>
-          ))}
-        </div>
-        <div className="mt-auto flex items-center justify-between text-sm">
-          {feature.id === "nano-banana" ? (
-            <Link
-              href="/nano-banana"
-              className="rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100"
-            >
-              立即体验
-            </Link>
-          ) : (
-            <span className="font-medium text-sky-600">即将上线</span>
           )}
-          <span className="text-slate-400">#{feature.id}</span>
+        </div>
+
+        {feature.description && (
+          <p className="text-xs text-slate-500 line-clamp-2" title={feature.description}>
+            {feature.description}
+          </p>
+        )}
+
+        <div className="mt-auto pt-2 flex items-center justify-between">
+          {feature.comingSoon ? (
+            <span className="inline-flex items-center rounded-md bg-slate-50 px-2 py-1 text-xs font-medium text-slate-400 ring-1 ring-inset ring-slate-500/10">
+              即将上线
+            </span>
+          ) : (
+            <Link
+              href={feature.link || "#"}
+              className="text-xs font-semibold text-sky-600 hover:text-sky-700 hover:underline"
+            >
+              立即体验 &rarr;
+            </Link>
+          )}
         </div>
       </div>
     </article>
   );
 }
+

@@ -1,316 +1,226 @@
 export interface Feature {
   id: string;
   name: string;
-  description: string;
-  icon: string;
+  description?: string;
+  icon?: string;
   isNew?: boolean;
-  prompts: string[];
+  comingSoon?: boolean;
+  prompts?: string[];
   exampleImage?: string;
+  link?: string; // For existing features that have a specific route
 }
 
-export const FEATURES: Feature[] = [
+export interface SubCategory {
+  name: string;
+  features: Feature[];
+}
+
+export interface Category {
+  name: string;
+  description: string;
+  subCategories: SubCategory[];
+}
+
+export const CATEGORIES: Category[] = [
   {
-    id: "angle-transform",
-    name: "AI图片转角度",
-    description: "智能调整图片角度和透视效果",
-    icon: "i-mdi-rotate-3d-variant",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/ba398cf3-1063-4000-8cf2-1f0817783b6f.jpg",
-    prompts: [
-      "请将这张图片的角度调整为正面视角",
-      "将图片旋转并校正透视角度",
-      "调整图片为俯视角度",
-      "转换为侧面视角",
-      "校正图片倾斜角度",
+    name: "专业向",
+    description: "主要面向专业设计师用户，比如对标的专业是建筑/景观/室内，或者是影视/游戏/动漫的一类用户。",
+    subCategories: [
+      {
+        name: "建筑与空间设计",
+        features: [
+          { id: "city-analysis", name: "城市分析图", comingSoon: true },
+          { id: "arch-analysis", name: "建筑分析图", comingSoon: true },
+          { id: "arch-style-transfer", name: "建筑风格转换", comingSoon: true },
+          { id: "sketch-to-render", name: "手绘转效果图", comingSoon: true },
+          { id: "line-drawing", name: "线稿图", comingSoon: true },
+          { id: "color-plan", name: "彩平图", comingSoon: true },
+          { id: "axonometric", name: "轴测图", comingSoon: true },
+          { id: "change-material", name: "改建筑材质", comingSoon: true },
+          { id: "change-weather", name: "改建筑天气", comingSoon: true },
+          { id: "change-env", name: "改建筑环境", comingSoon: true },
+          { id: "day-night", name: "改建筑日夜景", comingSoon: true },
+          { id: "landscape-analysis", name: "景观分析图", comingSoon: true },
+          { id: "residential-plan", name: "居住区总平", comingSoon: true },
+          { id: "interior-plan", name: "室内彩平", comingSoon: true },
+          { id: "plan-to-3d", name: "总平转鸟瞰图/三维模型", comingSoon: true },
+          { id: "interior-render", name: "室内效果图", comingSoon: true },
+          { id: "render-to-elevation", name: "室内效果图转立面图", comingSoon: true },
+          { id: "multi-angle", name: "一键生成多张不同角度效果图", comingSoon: true },
+          { id: "gen-model", name: "生成模型", comingSoon: true },
+          { id: "model-to-render", name: "模型转渲染图", comingSoon: true },
+          { id: "interior-material", name: "室内材质替换", comingSoon: true },
+          { id: "interior-light", name: "室内灯光变化", comingSoon: true },
+        ],
+      },
+      {
+        name: "科研绘图可视化",
+        features: [
+          { id: "paper-viz", name: "论文插图可视化/美化", comingSoon: true },
+        ],
+      },
+      {
+        name: "影视游戏",
+        features: [
+          { id: "scene-gen", name: "一键生成场景", comingSoon: true },
+          { id: "action-change", name: "修改人物动作", comingSoon: true },
+        ],
+      },
+      {
+        name: "动漫",
+        features: [
+          { id: "anime-char", name: "动漫角色生成", comingSoon: true },
+          { id: "product-style", name: "转不同产品风格", comingSoon: true },
+          { id: "sketch-anime", name: "草图/线稿上色/动漫化", comingSoon: true },
+          { id: "views-3-4", name: "三视图/四视图", comingSoon: true },
+          { id: "change-bg-anime", name: "更换背景(动漫)", comingSoon: true },
+          { id: "text-to-process", name: "文生产品制造流程", comingSoon: true },
+        ],
+      },
+      {
+        name: "平面排版/海报设计",
+        features: [
+          { id: "poster-design", name: "排版/海报设计", comingSoon: true },
+        ],
+      },
+      {
+        name: "渲染制作",
+        features: [
+          { id: "collage", name: "拼贴", comingSoon: true },
+          { id: "coloring", name: "上色", comingSoon: true },
+          { id: "material-lib", name: "材质库", comingSoon: true },
+        ],
+      },
     ],
   },
   {
-    id: "object-6-views",
-    name: "物体6视图",
-    description: "生成物体的六个视角视图",
-    icon: "i-mdi-cube-outline",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/002ba204-bc57-460e-a848-532ee393dfae.jpg",
-    prompts: [
-      "生成这个物体的六个视角视图",
-      "请提供物体的全方位视图",
-      "创建360度视图展示",
-      "生成前后左右上下六个角度",
-      "展示物体的完整视角",
+    name: "实用向",
+    description: "这款软件还主要面向小白用户，不做专业领域的用户，一般对普通人日常生活有小帮助的一款软件。",
+    subCategories: [
+      {
+        name: "AI摄影/电商图片",
+        features: [
+          { id: "hd-upscale", name: "图片高清", comingSoon: true }, // Mapped existing?
+          { id: "watermark-remove", name: "图片去水印", comingSoon: true },
+          { id: "smart-edit", name: "智能修图/扩图", comingSoon: true },
+          { id: "old-photo", name: "老照片修复/上色", comingSoon: true },
+          { id: "clarify", name: "高清图片/图片清晰化", comingSoon: true },
+          { id: "multi-merge", name: "多图融合", comingSoon: true },
+          { id: "obj-replace", name: "物体替换", comingSoon: true },
+          { id: "action-transfer", name: "人物动作迁移/生成", comingSoon: true },
+        ],
+      },
+      {
+        name: "高清/扩图/重绘",
+        features: [
+          { id: "hd-redraw", name: "高清/扩图/重绘", comingSoon: true },
+        ]
+      },
+      {
+        name: "转矢量/SVG",
+        features: [
+          { id: "hand-to-vec", name: "手写字转矢量", comingSoon: true },
+          { id: "icon-gen", name: "图标/logo生成", comingSoon: true },
+        ],
+      },
+      {
+        name: "中文海报生成",
+        features: [
+          { id: "cn-poster", name: "中文海报生成", comingSoon: true },
+        ]
+      },
+      {
+        name: "PPT",
+        features: [
+          { id: "ppt-gen", name: "PPT", comingSoon: true },
+        ]
+      },
+      {
+        name: "头像/表情包",
+        features: [
+          { id: "avatar-style", name: "各种风格头像", comingSoon: true },
+          { id: "emoji-gen", name: "表情包", comingSoon: true },
+        ],
+      },
+      {
+        name: "壁纸/插画",
+        features: [
+          { id: "wallpaper", name: "壁纸/插画", comingSoon: true },
+        ]
+      },
+      {
+        name: "写作/阅读",
+        features: [
+          { id: "writing", name: "写作/阅读", comingSoon: true },
+        ]
+      },
+      {
+        name: "视频/音频",
+        features: [
+          { id: "video-audio", name: "视频/音频", comingSoon: true },
+        ]
+      },
+      {
+        name: "换发型",
+        features: [
+          { id: "hairstyle", name: "换发型", comingSoon: true },
+        ]
+      },
+      {
+        name: "试穿衣服",
+        features: [
+          { id: "try-on", name: "试穿衣服", comingSoon: true },
+        ]
+      },
+      {
+        name: "旅行打卡/P图",
+        features: [
+          { id: "travel-photo", name: "旅行打卡/P图", comingSoon: true },
+        ]
+      },
+      {
+        name: "AI翻译/课程",
+        features: [
+          { id: "ai-course", name: "AI翻译/课程", comingSoon: true },
+        ]
+      },
+      {
+        name: "辅助英语学习/口语",
+        features: [
+          { id: "english-learn", name: "辅助英语学习/口语", comingSoon: true },
+        ]
+      },
+      {
+        name: "摄影/微头条/学习",
+        features: [
+          { id: "photo-learn", name: "摄影/微头条/学习", comingSoon: true },
+        ]
+      },
+      {
+        name: "小红书文案/写法",
+        features: [
+          { id: "xhs-copy", name: "小红书文案/写法", comingSoon: true },
+        ]
+      },
     ],
   },
   {
-    id: "nano-banana",
-    name: "Nano Banana",
-    description: "核心图片编辑功能入口",
-    icon: "i-mdi-image-edit",
-    isNew: true,
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/8ed138b6-61f9-42af-a59f-11e8de2ae461.jpg",
-    prompts: [
-      "使用Nano Banana编辑图片",
-      "应用智能图片处理",
-      "优化图片质量",
-      "增强图片细节",
-      "智能图片美化",
-    ],
-  },
-  {
-    id: "text-to-image",
-    name: "AI文字生图",
-    description: "根据文字描述生成图片",
-    icon: "i-mdi-text-to-speech",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/77c77132-67c0-44d8-bbaa-7a6d30406fc4.jpg",
-    prompts: [
-      "根据描述「海边的日落」生成图片",
-      "创建「futuristic cityscape」风格的图像",
-      "生成「温馨的咖啡厅」场景",
-      "绘制「科技感十足的办公室」",
-      "创作「梦幻森林」主题图片",
-    ],
-  },
-  {
-    id: "single-image-edit",
-    name: "单图智能修改",
-    description: "智能修改单张图片的风格、内容等",
-    icon: "i-mdi-image-filter-hdr",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/a8c2e714-71d9-4338-b764-b045b1d59f2a.jpg",
-    prompts: [
-      "将图片转换为油画风格",
-      "增强图片色彩饱和度",
-      "调整图片为黑白风格",
-      "优化图片光线效果",
-      "修复图片模糊问题",
-    ],
-  },
-  {
-    id: "multi-image-merge",
-    name: "多图编辑/合并",
-    description: "编辑和合并多张图片",
-    icon: "i-mdi-image-multiple",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/7dea3a0d-6818-4c0c-aa75-bd1a995afb33.jpg",
-    prompts: [
-      "合并多张图片为拼图",
-      "创建图片对比效果",
-      "制作图片序列动画",
-      "拼接全景图片",
-      "组合多张产品图",
-    ],
-  },
-  {
-    id: "hd-upscale",
-    name: "高清修复放大",
-    description: "修复和放大图片，提升清晰度",
-    icon: "i-mdi-image-size-select-large",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/26180bb3-3985-4443-b1fb-1034a7a0b836.jpg",
-    prompts: [
-      "将图片放大2倍并保持清晰",
-      "修复老照片并提升分辨率",
-      "增强图片细节清晰度",
-      "放大图片至4K分辨率",
-      "修复模糊图片",
-    ],
-  },
-  {
-    id: "product-fusion",
-    name: "产品图融合",
-    description: "融合产品图片，去除背景等",
-    icon: "i-mdi-package-variant",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/3c172384-27cd-44b9-acb4-2686900f3fa9.jpg",
-    prompts: [
-      "去除产品图背景",
-      "融合产品到新场景",
-      "优化产品图光影",
-      "调整产品图比例",
-      "美化产品展示效果",
-    ],
-  },
-  {
-    id: "material-replace",
-    name: "材质替换",
-    description: "替换图片中的材质纹理",
-    icon: "i-mdi-texture",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/0d2b69c2-16b1-4ea5-942e-25fd619ff582.jpg",
-    prompts: [
-      "将木质材质替换为金属",
-      "更换墙面材质为大理石",
-      "替换地板纹理",
-      "改变家具材质",
-      "调整物体表面质感",
-    ],
-  },
-  {
-    id: "facade-transfer",
-    name: "建筑立面迁移",
-    description: "迁移建筑立面到其他场景",
-    icon: "i-mdi-office-building",
-    isNew: true,
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/5ada89c7-a455-4e8e-b24f-57940391bfa9.jpg",
-    prompts: [
-      "将建筑立面应用到新场景",
-      "迁移建筑风格到其他建筑",
-      "复制建筑外观设计",
-      "转换建筑立面风格",
-      "融合建筑元素",
-    ],
-  },
-  {
-    id: "furniture-integration",
-    name: "家具融入空间",
-    description: "将家具融入特定空间场景",
-    icon: "i-mdi-sofa",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/47fb878f-96ea-4dae-99cc-cef40fdfc398.jpg",
-    prompts: [
-      "将沙发融入客厅场景",
-      "添加家具到空房间",
-      "调整家具摆放位置",
-      "匹配家具与空间风格",
-      "优化家具光影效果",
-    ],
-  },
-  {
-    id: "image-cutout",
-    name: "拷图/局部抠图",
-    description: "智能抠图和局部图像提取",
-    icon: "i-mdi-content-cut",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/8471634a-6a52-4e26-9145-f38e2fbc1dfc.jpg",
-    prompts: [
-      "抠出图片中的人物",
-      "提取产品主体",
-      "分离前景和背景",
-      "精确抠出复杂边缘",
-      "批量抠图处理",
-    ],
-  },
-  {
-    id: "soft-decoration",
-    name: "软装拼贴渲染",
-    description: "软装物品的拼贴和渲染",
-    icon: "i-mdi-palette",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/478ed464-c07c-4d4c-8222-4e96777a4041.jpg",
-    prompts: [
-      "渲染软装搭配效果",
-      "拼贴装饰元素",
-      "优化软装色彩搭配",
-      "生成软装方案",
-      "调整软装布局",
-    ],
-  },
-  {
-    id: "object-replace",
-    name: "物体替换/添加",
-    description: "替换或添加图片中的物体",
-    icon: "i-mdi-swap-horizontal",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/279804fb-29f7-400d-9b1c-2ae2745c99aa.jpg",
-    prompts: [
-      "替换图片中的物体",
-      "添加新物体到场景",
-      "移除不需要的物体",
-      "调整物体大小和位置",
-      "智能填充空白区域",
-    ],
-  },
-  {
-    id: "similar-generation",
-    name: "相似图生成",
-    description: "生成相似风格的图片",
-    icon: "i-mdi-content-copy",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/f3074ec8-8291-4631-bd80-3521a619c27b.jpg",
-    prompts: [
-      "生成相似风格的图片",
-      "创建系列化设计",
-      "保持风格一致性",
-      "批量生成相似图",
-      "延续设计语言",
-    ],
-  },
-  {
-    id: "background-generation",
-    name: "背景图生成",
-    description: "生成或替换图片背景",
-    icon: "i-mdi-image-area",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/80357535-f9e4-47ba-900b-fb2468cd4c68.jpg",
-    prompts: [
-      "生成自然风景背景",
-      "替换为纯色背景",
-      "创建渐变背景",
-      "添加场景化背景",
-      "优化背景虚化效果",
-    ],
-  },
-  {
-    id: "watermark-removal",
-    name: "去除水印",
-    description: "智能去除图片水印",
-    icon: "i-mdi-water-off",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/256645d2-d05b-49b9-a2ee-7796abf67788.jpg",
-    prompts: [
-      "去除图片水印",
-      "清除文字标记",
-      "移除logo印记",
-      "修复水印区域",
-      "智能填充水印位置",
-    ],
-  },
-  {
-    id: "room-clear",
-    name: "清空房间家具",
-    description: "移除房间图片中的家具",
-    icon: "i-mdi-home-outline",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/a40dfbd7-c0bc-4167-979c-85139a490c03.jpg",
-    prompts: [
-      "清空房间所有家具",
-      "移除指定家具",
-      "还原空房间效果",
-      "保留房间结构",
-      "生成空白空间",
-    ],
-  },
-  {
-    id: "image-to-video",
-    name: "AI图生视频",
-    description: "生成AI动画视频",
-    icon: "i-mdi-video",
-    isNew: true,
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/4cae6f1d-4b55-4133-b067-9896238b70f5.jpg",
-    prompts: [
-      "将图片转换为动画视频",
-      "生成图片运动效果",
-      "创建图片转场动画",
-      "制作图片故事视频",
-      "添加动态效果",
-    ],
-  },
-  {
-    id: "relight",
-    name: "图片重新打光",
-    description: "调整图片光线效果",
-    icon: "i-mdi-lightbulb-on",
-    exampleImage:
-      "https://miaoda-site-img.cdn.bcebos.com/images/a05a410d-7539-44bf-bf4f-75ea3ff9b8f5.jpg",
-    prompts: [
-      "调整图片光线方向",
-      "增强图片明暗对比",
-      "添加戏剧性光效",
-      "优化人像光线",
-      "模拟自然光效果",
+    name: "有趣向",
+    description: "这类用法主要是面向好玩的小白用户，并没有什么实际的价值，可能只是为了有趣好玩，适合小白用户想体验这个模型强大的能力的初光。",
+    subCategories: [
+      {
+        name: "有趣功能", // Grouping flat items
+        features: [
+          { id: "person-cartoon", name: "拟人化/漫改", comingSoon: true },
+          { id: "multi-role", name: "多角色/合影/同框", comingSoon: true },
+          { id: "creative-sky", name: "生成创意/蓝天/云朵", comingSoon: true },
+          { id: "movie-poster", name: "生成电影/海报/封面", comingSoon: true },
+          { id: "creative-avatar", name: "生成萌宠/头像", comingSoon: true },
+        ],
+      },
     ],
   },
 ];
 
+// Keep the old list for reference if needed, or just rely on the new structure.
+// We can map the 'nano-banana' feature to a prominent place or just keep it accessible via URL.
